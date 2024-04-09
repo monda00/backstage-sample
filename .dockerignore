@@ -1,8 +1,26 @@
+# Host build
+#.git
+#.yarn/cache
+#.yarn/install-state.gz
+#node_modules
+#packages/*/src
+#packages/*/node_modules
+#plugins
+#*.local.yaml
+
+# Multi stage build
+#dist-types
+#node_modules
+#packages/*/dist
+#packages/*/node_modules
+#plugins/*/dist
+#plugins/*/node_modules
+
+# Separate frontend and backend
 .git
-.yarn/cache
-.yarn/install-state.gz
+dist-types
 node_modules
-packages/*/src
+packages/*/dist
 packages/*/node_modules
-plugins
-*.local.yaml
+plugins/*/dist
+plugins/*/node_modules

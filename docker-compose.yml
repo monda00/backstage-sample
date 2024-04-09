@@ -1,0 +1,11 @@
+version: '3'
+services:
+  backstage-frontend:
+    image: backstage/frontend:latest
+    ports:
+      - 8080:80
+
+  backstage-backend:
+    image: backstage/backend:latest
+    ports:
+      - 7002:7002
