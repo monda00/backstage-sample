@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
-import styled from 'styled-components';
+import { Grid, makeStyles } from '@material-ui/core';
+// import styled from 'styled-components';
 import {
   HomePageStarredEntities,
   HomePageCompanyLogo,
@@ -11,46 +11,47 @@ import { HomePageSearchBar } from '@backstage/plugin-search';
 import { TemplateBackstageLogo } from '@backstage/plugin-home';
 import { InfoCard } from '@backstage/core-components';
 
-const SearchBarInput = styled.div`
-  max-width: 60vw;
-  margin: auto;
-  background-color: ${props => props.theme.palette.background.paper};
-  border-radius: 50px;
-  box-shadow: ${props => props.theme.shadows[1]};
-`;
+const useStyles = makeStyles(theme => ({
+  searchBarInput: {
+    maxWidth: '60vw',
+    margin: 'auto',
+    backgroundColor: theme.palette.background.paper,
+    borderRadius: '50px',
+    boxShadow: theme.shadows[1],
+  },
+  searchBarOutline: {
+    borderStyle: 'none',
+  },
+}));
 
-const SearchBarOutline = styled.div`
-  border-style: none;
-`;
-
-const LogoContainer = styled.div`
-  margin: ${props => props.theme.spacing(5, 0)};
-`;
-
-const LogoSvg = styled.svg`
-  width: auto;
-  height: 100px;
-`;
-
-const LogoPath = styled.path`
-  fill: #7df3e1;
-`;
+const useLogoStyles = makeStyles(theme => ({
+  container: {
+    margin: theme.spacing(5, 0),
+  },
+  svg: {
+    width: 'auto',
+    height: 100,
+  },
+  path: {
+    fill: '#7df3e1',
+  },
+}));
 
 export const HomePage = () => {
+  const classes = useStyles();
+  const { svg, path, container } = useLogoStyles();
   return (
     <Grid container justifyContent="center" spacing={6}>
       <HomePageCompanyLogo
-        className={LogoContainer}
-        logo={
-          <TemplateBackstageLogo classes={{ svg: LogoSvg, path: LogoPath }} />
-        }
+        className={container}
+        logo={<TemplateBackstageLogo classes={{ svg, path }} />}
       />
       <Grid container item xs={12} justifyContent="center">
         <HomePageSearchBar
           InputProps={{
             classes: {
-              root: SearchBarInput,
-              notchedOutline: SearchBarOutline,
+              root: classes.searchBarInput,
+              notchedOutline: classes.searchBarOutline,
             },
           }}
           placeholder="Search"
