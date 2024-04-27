@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-// import styled from 'styled-components';
 import {
   HomePageStarredEntities,
   HomePageCompanyLogo,
@@ -9,7 +8,8 @@ import {
 } from '@backstage/plugin-home';
 import { HomePageSearchBar } from '@backstage/plugin-search';
 import { TemplateBackstageLogo } from '@backstage/plugin-home';
-import { InfoCard } from '@backstage/core-components';
+import { SearchContextProvider } from '@backstage/plugin-search-react';
+import { Content, Page, InfoCard } from '@backstage/core-components';
 
 const useStyles = makeStyles(theme => ({
   searchBarInput: {
@@ -40,43 +40,50 @@ const useLogoStyles = makeStyles(theme => ({
 export const HomePage = () => {
   const classes = useStyles();
   const { svg, path, container } = useLogoStyles();
+
   return (
-    <Grid container justifyContent="center" spacing={6}>
-      <HomePageCompanyLogo
-        className={container}
-        logo={<TemplateBackstageLogo classes={{ svg, path }} />}
-      />
-      <Grid container item xs={12} justifyContent="center">
-        <HomePageSearchBar
-          InputProps={{
-            classes: {
-              root: classes.searchBarInput,
-              notchedOutline: classes.searchBarOutline,
-            },
-          }}
-          placeholder="Search"
-        />
-      </Grid>
-      <Grid container item xs={12}>
-        <Grid item xs={12} md={6}>
-          <HomePageStarredEntities />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <HomePageToolkit
-            tools={Array(8).fill({
-              url: '#',
-              label: 'link',
-              icon: <TemplateBackstageLogoIcon />,
-            })}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <InfoCard title="Composable Section">
-            {/* placeholder for content */}
-            <div style={{ height: 370 }} />
-          </InfoCard>
-        </Grid>
-      </Grid>
-    </Grid>
+    <SearchContextProvider>
+      <Page themeId="home">
+        <Content>
+          <Grid container justifyContent="center" spacing={6}>
+            <HomePageCompanyLogo
+              className={container}
+              logo={<TemplateBackstageLogo classes={{ svg, path }} />}
+            />
+            <Grid container item xs={12} justifyContent="center">
+              <HomePageSearchBar
+                InputProps={{
+                  classes: {
+                    root: classes.searchBarInput,
+                    notchedOutline: classes.searchBarOutline,
+                  },
+                }}
+                placeholder="Search"
+              />
+            </Grid>
+            <Grid container item xs={12}>
+              <Grid item xs={12} md={6}>
+                <HomePageStarredEntities />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <HomePageToolkit
+                  tools={Array(8).fill({
+                    url: '#',
+                    label: 'link',
+                    icon: <TemplateBackstageLogoIcon />,
+                  })}
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <InfoCard title="Composable Section">
+                  {/* placeholder for content */}
+                  <div style={{ height: 370 }} />
+                </InfoCard>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Content>
+      </Page>
+    </SearchContextProvider>
   );
 };
