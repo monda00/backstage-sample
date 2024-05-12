@@ -1,0 +1,238 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: bookinfo
+  description: BookInfo application
+spec:
+  owner: bookinfo-team
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: productpage
+  description: The main web page interface for the BookInfo app
+spec:
+  type: service
+  lifecycle: production
+  owner: bookinfo-team
+  system: bookinfo
+  providesApis:
+    - productpage-api
+  consumesApis:
+    - details-api
+    - reviews-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: productpage-api
+  description: API for accessing product page data
+spec:
+  type: openapi
+  lifecycle: production
+  owner: bookinfo-team
+  system: bookinfo
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: ProductPage API
+      version: 1.0.0
+    paths:
+      /details:
+        get:
+          summary: Get details for a product
+          responses:
+            '200':
+              description: A product detail object
+      /reviews:
+        get:
+          summary: Get reviews for a product
+          responses:
+            '200':
+              description: A list of review objects
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: details-service
+  description: A microservice that provides details of books
+spec:
+  type: service
+  lifecycle: production
+  owner: bookinfo-team
+  system: bookinfo
+  providesApis:
+    - details-api
+  consumesApis: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: details-api
+  description: API for fetching book details
+spec:
+  type: openapi
+  lifecycle: production
+  owner: bookinfo-team
+  system: bookinfo
+  definition: |
+    openapi: 3.0.0
+    info:
+      version: 1.0.0
+      title: Details API
+      description: API for fetching book details
+    paths:
+      /details/{id}:
+        get:
+          summary: Get details of a book
+          parameters:
+            - name: id
+              in: path
+              required: true
+              schema:
+                type: integer
+          responses:
+            '200':
+              description: Details of the book
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      author:
+                        type: string
+                      year:
+                        type: integer
+                      type:
+                        type: string
+                      pages:
+                        type: integer
+                      publisher:
+                        type: string
+                      language:
+                        type: string
+                      ISBN-10:
+                        type: string
+                      ISBN-13:
+                        type: string
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: reviews-application
+  description: A Java application that provides review services via REST API.
+spec:
+  type: service
+  lifecycle: production
+  owner: bookinfo-team
+  system: bookinfo
+  providesApis:
+    - reviews-api
+  consumesApis: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: reviews-api
+  description: API for accessing review services.
+spec:
+  type: openapi
+  lifecycle: production
+  owner: bookinfo-team
+  system: bookinfo
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Reviews API
+      version: 1.0.0
+    paths:
+      /reviews/{productId}:
+        get:
+          summary: Get reviews by product ID
+          parameters:
+            - name: productId
+              in: path
+              required: true
+              schema:
+                type: integer
+          responses:
+            '200':
+              description: A JSON object of reviews
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      productId:
+                        type: integer
+                      reviews:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            reviewer:
+                              type: string
+                            stars:
+                              type: integer
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ratings-service
+  description: Service for managing product ratings
+spec:
+  type: service
+  lifecycle: production
+  owner: bookinfo-team
+  system: bookinfo
+  providesApis:
+    - ratings-api
+  consumesApis: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ratings-api
+  description: API for managing product ratings
+spec:
+  type: openapi
+  lifecycle: production
+  owner: bookinfo-team
+  system: bookinfo
+  definition: |
+    openapi: 3.0.0
+    info:
+      version: 1.0.0
+      title: Ratings API
+      description: API for managing product ratings
+    paths:
+      /ratings/{productId}:
+        get:
+          summary: Get ratings for a product
+          parameters:
+            - name: productId
+              in: path
+              required: true
+              schema:
+                type: integer
+        post:
+          summary: Post ratings for a product
+          parameters:
+            - name: productId
+              in: path
+              required: true
+              schema:
+                type: integer
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    ratings:
+                      type: object
+                      additionalProperties:
+                        type: integer
