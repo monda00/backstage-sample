@@ -107,3 +107,15 @@ catalog:
     #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
     #   rules:
     #     - allow: [User, Group]
+
+kubernetes:
+  serviceLocatorMethod:
+    type: 'singleTenant'
+  clusterLocatorMethods:
+    - type: 'config'
+      clusters:
+        - name: docker-k8s
+          url: 'https://127.0.0.1:6443'
+          authProvider: 'serviceAccount'
+          serviceAccountToken: ${K8S_DOCKER_TOKEN}
+          skipTLSVerify: true
