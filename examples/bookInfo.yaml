@@ -11,6 +11,13 @@ kind: Component
 metadata:
   name: productpage
   description: The main web page interface for the BookInfo app
+  links:
+    - url: https://www.atlassian.com/ja/software/confluence
+      title: Confluence
+      icon: confluence
+    - url: https://backstage.io/
+      title: Backstage
+      icon: backstage
 spec:
   type: service
   lifecycle: production

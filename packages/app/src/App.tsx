@@ -40,6 +40,9 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
 
+import { BackstageIcon } from './assets/icons/CustomIcons';
+import { FaConfluence } from 'react-icons/fa';
+
 const app = createApp({
   apis,
   bindRoutes({ bind }) {
@@ -61,6 +64,10 @@ const app = createApp({
   },
   components: {
     SignInPage: props => <SignInPage {...props} auto providers={['guest']} />,
+  },
+  icons: {
+    backstage: BackstageIcon,
+    confluence: FaConfluence,
   },
 });
 
