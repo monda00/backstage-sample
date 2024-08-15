@@ -1,0 +1,8 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: monda00
+spec:
+  profile:
+    displayName: masa
+  memberOf: []

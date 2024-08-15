@@ -42,6 +42,7 @@ import { HomePage } from './components/home/HomePage';
 
 import { BackstageIcon } from './assets/icons/CustomIcons';
 import { FaConfluence } from 'react-icons/fa';
+import { githubAuthApiRef } from '@backstage/core-plugin-api';
 
 const app = createApp({
   apis,
@@ -63,7 +64,20 @@ const app = createApp({
     });
   },
   components: {
-    SignInPage: props => <SignInPage {...props} auto providers={['guest']} />,
+    SignInPage: props => (
+      <SignInPage
+        {...props}
+        providers={[
+          'guest',
+          {
+            id: 'github-auth-provider',
+            title: 'GitHub',
+            message: 'Sign in using GitHub',
+            apiRef: githubAuthApiRef,
+          },
+        ]}
+      />
+    ),
   },
   icons: {
     backstage: BackstageIcon,

@@ -98,6 +98,11 @@ catalog:
     - type: file
       target: ../../examples/bookinfo.yaml
 
+    - type: file
+      target: ../../examples/user.yaml
+      rules:
+        - allow: [User]
+
     ## Uncomment these lines to add more example data
     # - type: url
     #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
