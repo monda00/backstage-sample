@@ -29,13 +29,13 @@
 #       docker build -t backstage-frontend -f Dockerfile.dockerbuild .
 
 
-FROM node:18-bookworm-slim AS build
+FROM node:22-bookworm-slim AS build
 
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
 
-RUN yarn install
+RUN yarn install --immutable
 COPY app-config.yaml ./
 COPY app-config.production.yaml ./
 RUN yarn workspace app build --config ../../app-config.yaml --config ../../app-config.production.yaml
